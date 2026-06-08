@@ -695,8 +695,8 @@
 </div>
 
 <!-- RESULT -->
-<div id="result">
-  <div class="result-card fade-in verde" id="resultCard">
+<div id="result" style="display:none">
+  <div class="result-card fade-in verde">
     <div class="result-symbol">✦</div>
     <div class="result-title">¡Gracias por tu tiempo!</div>
     <p class="result-desc">Recibimos tu cuestionario correctamente. Nos vamos a comunicar con vos a la brevedad.</p>
@@ -807,24 +807,27 @@ ${get('extra') || '—'}
   document.getElementById('mainForm').style.display = 'none';
   document.getElementById('loading').style.display = 'block';
 
-  // Llamar a la función de Vercel
+  // Enviar a Web3Forms
   try {
-    await fetch('/api/analizar', {
+    await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
-        resumen: resumenBase,
+        access_key: 'e6e12092-4656-448c-9399-0948c5f4e195',
+        subject: `[Avelinas] Nueva candidata: ${get('nombre')}`,
+        from_name: 'Avelinas · Cuestionario',
         nombre: get('nombre'),
         especialidad: get('especialidad'),
         telefono: get('telefono'),
-        email: get('email') || '—'
+        email_candidata: get('email') || '—',
+        resumen: resumenBase
       })
     });
   } catch(err) {
-    // Si falla, igual mostramos confirmación
+    // silencioso
   }
 
-  // Mostrar resultado genérico
+  // Mostrar confirmación genérica
   document.getElementById('loading').style.display = 'none';
   document.getElementById('result').style.display = 'block';
   document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
