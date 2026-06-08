@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avelinas · Cuestionario de Selección</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f4efea;
+    --stone: #e8dfd6;
+    --olive: #8b8f6b;
+    --olive-dark: #6b6f52;
+    --olive-deep: #3d4030;
+    --blush: #c8c9a8;
+    --light: #faf7f4;
+    --white: #ffffff;
+    --ok: #7aab8a;
+    --warn: #c09060;
+    --danger: #b06050;
+    --text-soft: #7a7060;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    color: var(--olive-deep);
+    min-height: 100vh;
+    padding-bottom: 100px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--olive-deep);
+    padding: 44px 40px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 65% -20%, #5a5e44 0%, transparent 55%);
+    pointer-events: none;
+  }
+  header::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -60px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    border: 1px solid rgba(200,201,168,0.1);
+    pointer-events: none;
+  }
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    letter-spacing: 0.2em;
+    color: var(--blush);
+    display: block;
+    position: relative;
+  }
+  .logo em { font-style: italic; color: var(--white); }
+  .header-sub {
+    font-size: 0.68rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--blush);
+    opacity: 0.6;
+    margin-top: 8px;
+    position: relative;
+  }
+
+  /* ── INTRO ── */
+  .intro {
+    max-width: 600px;
+    margin: 52px auto 0;
+    padding: 0 28px;
+    text-align: center;
+  }
+  .intro h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--olive-dark);
+    margin-bottom: 16px;
+  }
+  .intro p {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--text-soft);
+    max-width: 440px;
+    margin: 0 auto;
+  }
+  .divider {
+    width: 40px;
+    height: 1px;
+    background: var(--blush);
+    margin: 32px auto;
+  }
+
+  /* ── FORM ── */
+  form {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  .required-note {
+    font-size: 0.72rem;
+    color: var(--text-soft);
+    text-align: right;
+    max-width: 640px;
+    margin: 0 auto 8px;
+    padding: 0 24px;
+  }
+
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--olive);
+    margin: 48px 0 22px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--stone);
+  }
+
+  .field {
+    margin-bottom: 24px;
+  }
+
+  label {
+    display: block;
+    font-size: 0.88rem;
+    font-weight: 400;
+    color: var(--olive-deep);
+    margin-bottom: 10px;
+    line-height: 1.55;
+  }
+  label .req { color: var(--olive); margin-left: 2px; }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  select,
+  textarea {
+    width: 100%;
+    background: var(--white);
+    border: 1.5px solid var(--stone);
+    border-radius: 6px;
+    padding: 13px 16px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 300;
+    color: var(--olive-deep);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    -webkit-appearance: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--olive);
+    box-shadow: 0 0 0 3px rgba(139,143,107,0.12);
+  }
+  textarea { resize: vertical; min-height: 96px; line-height: 1.65; }
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238b8f6b' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 38px;
+    cursor: pointer;
+  }
+
+  /* ── RADIO / OPTIONS ── */
+  .options { display: flex; flex-direction: column; gap: 8px; }
+  .option {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: var(--white);
+    border: 1.5px solid var(--stone);
+    border-radius: 7px;
+    padding: 12px 15px;
+    cursor: pointer;
+    transition: border-color 0.18s, background 0.18s;
+    user-select: none;
+  }
+  .option:hover { border-color: var(--blush); background: #fdfaf7; }
+  .option input[type="radio"] {
+    width: 17px; height: 17px;
+    border: 1.5px solid #bbb0a4;
+    border-radius: 50%;
+    background: var(--white);
+    appearance: none;
+    flex-shrink: 0;
+    margin-top: 2px;
+    cursor: pointer;
+    transition: all 0.15s;
+    position: relative;
+  }
+  .option input[type="radio"]:checked {
+    background: var(--olive);
+    border-color: var(--olive);
+  }
+  .option input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    background: white;
+    border-radius: 50%;
+  }
+  .option.selected { border-color: var(--olive); background: rgba(139,143,107,0.06); }
+  .option-text { font-size: 0.86rem; line-height: 1.5; color: var(--olive-deep); }
+  .option-hint { font-size: 0.75rem; color: var(--text-soft); margin-top: 3px; }
+
+  /* ── ESCALA ── */
+  .scale-wrap { display: flex; gap: 6px; }
+  .scale-wrap input[type="radio"] { display: none; }
+  .scale-wrap label {
+    flex: 1;
+    text-align: center;
+    background: var(--white);
+    border: 1.5px solid var(--stone);
+    border-radius: 6px;
+    padding: 11px 4px 9px;
+    cursor: pointer;
+    margin: 0;
+    font-size: 0.88rem;
+    font-weight: 400;
+    transition: all 0.15s;
+    color: var(--text-soft);
+  }
+  .scale-wrap label:hover { border-color: var(--blush); }
+  .scale-wrap input[type="radio"]:checked + label {
+    border-color: var(--olive);
+    background: rgba(139,143,107,0.09);
+    color: var(--olive-dark);
+    font-weight: 500;
+  }
+  .scale-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    color: var(--text-soft);
+    margin-top: 7px;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── SUBMIT ── */
+  .submit-wrap { margin-top: 48px; text-align: center; }
+  button[type="submit"] {
+    background: var(--olive-deep);
+    color: var(--blush);
+    border: none;
+    border-radius: 6px;
+    padding: 17px 56px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+  button[type="submit"]:hover { background: var(--olive-dark); }
+  button[type="submit"]:active { transform: scale(0.98); }
+  button[type="submit"]:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  /* ── LOADING ── */
+  #loading {
+    display: none;
+    max-width: 640px;
+    margin: 60px auto 0;
+    padding: 0 24px;
+    text-align: center;
+  }
+  .loading-inner {
+    background: var(--white);
+    border: 1.5px solid var(--stone);
+    border-radius: 12px;
+    padding: 48px 32px;
+  }
+  .loading-dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    background: var(--olive);
+    border-radius: 50%;
+    margin: 0 4px;
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+  .loading-dot:nth-child(2) { animation-delay: 0.2s; }
+  .loading-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes pulse {
+    0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
+    40% { opacity: 1; transform: scale(1); }
+  }
+  .loading-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: var(--olive-dark);
+    margin-top: 20px;
+  }
+  .loading-sub {
+    font-size: 0.8rem;
+    color: var(--text-soft);
+    margin-top: 8px;
+    line-height: 1.6;
+  }
+
+  /* ── RESULT ── */
+  #result {
+    display: none;
+    max-width: 640px;
+    margin: 48px auto 0;
+    padding: 0 24px;
+  }
+  .result-card {
+    border-radius: 10px;
+    padding: 36px 32px;
+    text-align: center;
+  }
+  .result-card.verde { background: #f1f7f3; border: 1.5px solid #a8ceb4; }
+  .result-card.amarillo { background: #fdf8ee; border: 1.5px solid #d8c06a; }
+  .result-card.rojo { background: #fdf1ef; border: 1.5px solid #d4a090; }
+
+  .result-symbol {
+    font-size: 2.2rem;
+    margin-bottom: 14px;
+    opacity: 0.8;
+  }
+  .result-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.7rem;
+    font-weight: 400;
+    margin-bottom: 12px;
+    color: var(--olive-deep);
+  }
+  .result-score {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+    margin-bottom: 20px;
+  }
+  .flags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin: 18px 0;
+  }
+  .flag {
+    background: rgba(176,96,80,0.1);
+    color: var(--danger);
+    border: 1px solid rgba(176,96,80,0.22);
+    border-radius: 99px;
+    padding: 5px 14px;
+    font-size: 0.73rem;
+    letter-spacing: 0.02em;
+  }
+  .flag.ok {
+    background: rgba(122,171,138,0.12);
+    color: #4a8a5a;
+    border-color: rgba(122,171,138,0.3);
+  }
+
+  .ai-analysis {
+    background: var(--light);
+    border: 1px solid var(--stone);
+    border-radius: 8px;
+    padding: 24px;
+    margin-top: 24px;
+    text-align: left;
+  }
+  .ai-analysis-title {
+    font-size: 0.65rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--olive);
+    margin-bottom: 14px;
+  }
+  .ai-analysis-body {
+    font-size: 0.85rem;
+    line-height: 1.75;
+    color: var(--olive-deep);
+    white-space: pre-wrap;
+  }
+
+  .sent-note {
+    font-size: 0.78rem;
+    color: var(--text-soft);
+    margin-top: 20px;
+    line-height: 1.6;
+  }
+
+  .btn-reset {
+    margin-top: 28px;
+    background: none;
+    border: 1.5px solid var(--stone);
+    color: var(--olive-dark);
+    border-radius: 6px;
+    padding: 11px 30px;
+    font-family: 'Jost', sans-serif;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .btn-reset:hover { background: var(--stone); border-color: var(--blush); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-in { animation: fadeUp 0.5s ease both; }
+</style>
+</head>
+<body>
+
+<header>
+  <span class="logo"><em>A</em>velinas</span>
+  <p class="header-sub">Centro de Estética · Selección de Profesionales</p>
+</header>
+
+<div class="intro">
+  <h2>Cuestionario de incorporación</h2>
+  <p>Este formulario nos ayuda a conocerte mejor y asegurarnos de que la colaboración sea buena para las dos partes. No hay respuestas correctas ni incorrectas — lo que valoramos es la sinceridad.</p>
+  <div class="divider"></div>
+</div>
+
+<p class="required-note"><span style="color:var(--olive)">*</span> campos obligatorios</p>
+
+<form id="mainForm" novalidate>
+
+  <!-- 01 · DATOS -->
+  <div class="section-label">01 · Datos personales</div>
+
+  <div class="field">
+    <label>Nombre completo <span class="req">*</span></label>
+    <input type="text" name="nombre" required placeholder="Tu nombre y apellido">
+  </div>
+
+  <div class="field">
+    <label>Especialidad <span class="req">*</span></label>
+    <input type="text" name="especialidad" required placeholder="Ej: Manicura, Masajes, Facialista…">
+  </div>
+
+  <div class="field">
+    <label>Teléfono de contacto <span class="req">*</span></label>
+    <input type="tel" name="telefono" required placeholder="Ej: 2281 000000">
+  </div>
+
+  <div class="field">
+    <label>Email (opcional)</label>
+    <input type="email" name="email" placeholder="tu@email.com">
+  </div>
+
+  <!-- 02 · DISPONIBILIDAD -->
+  <div class="section-label">02 · Disponibilidad real</div>
+
+  <div class="field">
+    <label>¿Cuántas horas por semana podés dedicarle actualmente a este trabajo? <span class="req">*</span></label>
+    <select name="horas" required>
+      <option value="" disabled selected>Seleccioná una opción</option>
+      <option value="3">Más de 30 horas (dedicación completa)</option>
+      <option value="2">Entre 15 y 30 horas</option>
+      <option value="1">Entre 5 y 15 horas</option>
+      <option value="0">Menos de 5 horas / no estoy segura</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label>¿Tenés otros compromisos fijos que puedan afectar tu horario laboral? <span class="req">*</span></label>
+    <div class="options">
+      <label class="option">
+        <input type="radio" name="compromisos" value="2" required>
+        <div class="option-text">No, tengo disponibilidad flexible</div>
+      </label>
+      <label class="option">
+        <input type="radio" name="compromisos" value="1">
+        <div class="option-text">Sí, pero tengo quien me cubra o lo tengo organizado</div>
+      </label>
+      <label class="option">
+        <input type="radio" name="compromisos" value="0">
+        <div class="option-text">Sí, y puede ser complicado en algunos momentos
+          <div class="option-hint">p. ej. cuidado de hijos sin apoyo, otro trabajo a tiempo completo…</div>
+        </div>
+      </label>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Si un día tenés un imprevisto (hijo enfermo, cita médica…), ¿cómo lo manejás? <span class="req">*</span></label>
+    <div class="options">
+      <label class="option">
+        <input type="radio" name="imprevisto" value="3" required>
+        <div class="option-text">Aviso con la mayor anticipación posible y busco solución para las clientas</div>
+      </label>
+      <label class="option">
+        <input type="radio" name="imprevisto" value="2">
+        <div class="option-text">Aviso, aunque a veces es con poco tiempo</div>
+      </label>
+      <label class="option">
+        <input type="radio" name="imprevisto" value="1">
+        <div class="option-text">Depende del imprevisto — no siempre es posible avisar</div>
+      </label>
+      <label class="option">
+        <input type="radio" name="imprevisto" value="0">
+        <div class="option-text">Reconozco que me costó gestionar esto en el pasado</div>
+      </label>
+    </div>
+  </div>
+
+  <!-- 03 · HISTORIAL -->
+  <div class="section-label">03 · Experiencia y trayectoria</div>
+
+  <div class="field">
+    <label>¿Cuánto tiempo llevás ejerciendo tu especialidad? <span class="req">*</span></label>
+    <select name="experiencia" required>
+      <option value="" disabled selected>Seleccioná una opción</option>
+      <option value="4">Más de 5 años</option>
+      <option value="3">Entre 3 y 5 años</option>
+      <option value="2">Entre 1 y 3 años</option>
+      <option value="1">Entre 6 meses y 1 año</option>
+      <option value="0">Menos de 6 meses / estoy empezando</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label>¿Alguna vez dejaste un trabajo o cliente anterior sin terminar correctamente? <span class="req">*</span></label>
+    <div class="options">
+      <label class="option">
+        <input type="radio" name="abandono" value="2" required>
+        <div class="option-text">No, nunca dejé un trabajo sin cerrarlo bien</div>
+      </label>
+      <label class="option">
+        <input type="radio" name="abandono" value="1">
+        <div class="option-text">Sí, alguna vez — pero lo comuniqué con tiempo</div>
+      </label>
+      <label class="option">
+        <input type="radio" name="abandono" value="0">
+        <div class="option-text">Sí, y no siempre pude avisarlo con anticipación</div>
+      </label>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>¿En cuántos centros o trabajos distintos estuviste en los últimos 2 años? <span class="req">*</span></label>
+    <div class="options">
+      <label class="option">
+        <input type="radio" name="rotacion" value="3" required>
+        <div class="option-text">1 o 2</div>
+      </label>
+      <label class="option">
+        <input type="radio" name="rotacion" value="1">
+        <div class="option-text">3 o 4</div>
+      </label>
+      <label class="option">
+        <input type="radio" name="rotacion" value="0">
+        <div class="option-text">Más de 4</div>
+      </label>
+    </div>
+  </div>
+
+  <!-- 04 · ACTITUD (test camuflado) -->
+  <div class="section-label">04 · Situaciones cotidianas</div>
+
+  <div class="field">
+    <label>Una clienta llega 10 minutos tarde y el turno siguiente está justo. ¿Qué hacés? <span class="req">*</span></label>
+    <div class="options">
+      <label class="option">
+        <input type="radio" name="puntualidad_cliente" value="3" required>
+        <div class="option-text">Le aviso del tiempo disponible y adapto el servicio; la siguiente clienta tiene prioridad</div>
+      </label>
+      <label class="option">
+        <input type="radio" name="puntualidad_cliente" value="1">
+        <div class="option-text">Intento hacer el servicio completo aunque me retrase un poco</div>
+      </label>
+      <label class="option">
+        <input type="radio" name="puntualidad_cliente" value="0">
+        <div class="option-text">Me adapto al momento — cada situación es distinta</div>
+      </label>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Una clienta te pide que le hagas el servicio en su casa, por fuera del centro. ¿Qué respondés? <span class="req">*</span></label>
+    <div class="options">
+      <label class="option">
+        <input type="radio" name="lealtad" value="3" required>
+        <div class="option-text">Le explico amablemente que solo trabajo en el centro y la invito a sacar turno</div>
+      </label>
+      <label class="option">
+        <input type="radio" name="lealtad" value="1">
+        <div class="option-text">Dependería de la situación — si es algo puntual, podría considerar</div>
+      </label>
+      <label class="option">
+        <input type="radio" name="lealtad" value="0">
+        <div class="option-text">Lo haría si el centro no se entera — es una decisión personal</div>
+      </label>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Te das cuenta de que cometiste un error durante un servicio (una uña mal, una zona sin depilar). ¿Qué hacés? <span class="req">*</span></label>
+    <div class="options">
+      <label class="option">
+        <input type="radio" name="error" value="3" required>
+        <div class="option-text">Lo reconozco en el momento, lo corrijo y lo aclaro con la clienta sin que ella lo note primero</div>
+      </label>
+      <label class="option">
+        <input type="radio" name="error" value="1">
+        <div class="option-text">Lo corrijo si puedo, pero no lo menciono si ella no lo vio</div>
+      </label>
+      <label class="option">
+        <input type="radio" name="error" value="0">
+        <div class="option-text">Espero a ver si se queja — no quiero generar una situación innecesaria</div>
+      </label>
+    </div>
+  </div>
+
+  <div class="field">
+    <label>Tu compañera dejó su área de trabajo desordenada antes de que llegue la próxima clienta. ¿Qué hacés? <span class="req">*</span></label>
+    <div class="options">
+      <label class="option">
+        <input type="radio" name="equipo" value="3" required>
+        <div class="option-text">Lo ordeno yo, y después se lo digo con buena onda para que no se repita</div>
+      </label>
+      <label class="option">
+        <input type="radio" name="equipo" value="1">
+        <div class="option-text">Lo ordeno sin decir nada — prefiero evitar el conflicto</div>
+      </label>
+      <label class="option">
+        <input type="radio" name="equipo" value="0">
+        <div class="option-text">Lo dejo así — no es mi responsabilidad</div>
+      </label>
+    </div>
+  </div>
+
+  <!-- 05 · COMPROMISO -->
+  <div class="section-label">05 · Compromiso</div>
+
+  <div class="field">
+    <label>¿Qué tan importante es la puntualidad para vos en el trabajo? <span class="req">*</span></label>
+    <div class="scale-wrap">
+      <input type="radio" name="puntualidad_self" id="p1" value="1"><label for="p1">1</label>
+      <input type="radio" name="puntualidad_self" id="p2" value="2"><label for="p2">2</label>
+      <input type="radio" name="puntualidad_self" id="p3" value="3"><label for="p3">3</label>
+      <input type="radio" name="puntualidad_self" id="p4" value="4"><label for="p4">4</label>
+      <input type="radio" name="puntualidad_self" id="p5" value="5"><label for="p5">5</label>
+    </div>
+    <div class="scale-labels"><span>Poco importante</span><span>Fundamental</span></div>
+  </div>
+
+  <div class="field">
+    <label>¿Qué esperás de Avelinas como centro? <span class="req">*</span></label>
+    <textarea name="expectativas" required placeholder="Contanos qué buscás en esta colaboración…"></textarea>
+  </div>
+
+  <div class="field">
+    <label>¿Hay algo que quieras que sepamos antes de empezar? (opcional)</label>
+    <textarea name="extra" placeholder="Cualquier cosa que creas importante compartir…"></textarea>
+  </div>
+
+  <div class="submit-wrap">
+    <button type="submit">Enviar cuestionario</button>
+  </div>
+
+</form>
+
+<!-- LOADING -->
+<div id="loading">
+  <div class="loading-inner">
+    <div>
+      <span class="loading-dot"></span>
+      <span class="loading-dot"></span>
+      <span class="loading-dot"></span>
+    </div>
+    <div class="loading-text">Analizando el perfil…</div>
+    <div class="loading-sub">Estamos generando un análisis personalizado.<br>Puede tardar unos segundos.</div>
+  </div>
+</div>
+
+<!-- RESULT -->
+<div id="result">
+  <div class="result-card fade-in" id="resultCard">
+    <div class="result-symbol" id="resultSymbol"></div>
+    <div class="result-title" id="resultTitle"></div>
+    <div class="result-score" id="resultScore"></div>
+    <div class="flags" id="resultFlags"></div>
+    <div class="ai-analysis" id="aiAnalysis" style="display:none">
+      <div class="ai-analysis-title">Análisis detallado</div>
+      <div class="ai-analysis-body" id="aiBody"></div>
+    </div>
+    <p class="sent-note" id="sentNote"></p>
+    <br>
+    <button class="btn-reset" onclick="resetForm()">Nueva respuesta</button>
+  </div>
+</div>
+
+<script>
+// Highlight selected options
+document.querySelectorAll('.option input[type="radio"]').forEach(input => {
+  input.addEventListener('change', () => {
+    const group = input.closest('.options');
+    if (group) {
+      group.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+      input.closest('.option').classList.add('selected');
+    }
+  });
+});
+
+// especialidad es texto libre, no necesita map
+const horasMap = { 3: 'Más de 30h/semana', 2: '15–30h/semana', 1: '5–15h/semana', 0: 'Menos de 5h / no segura' };
+const compromisosMap = ['Compromisos que pueden ser problemáticos', 'Tiene solución o apoyo', 'Sin compromisos fijos'];
+const imprevistoMap = ['Reconoce dificultades con la gestión', 'Avisa aunque a veces tarde', 'Avisa aunque con poco tiempo', 'Avisa con anticipación y busca solución'];
+const experienciaMap = ['Menos de 6 meses', '6 meses a 1 año', '1 a 3 años', '3 a 5 años', 'Más de 5 años'];
+const abandonoMap = ['Abandonos sin aviso previo', 'Sí, con comunicación previa', 'Nunca abandonó un trabajo'];
+const rotacionMap = { 3: '1 o 2 trabajos', 1: '3 o 4 trabajos', 0: 'Más de 4 trabajos' };
+
+document.getElementById('mainForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const fd = new FormData(this);
+  const get = k => fd.get(k);
+
+  // Validación
+  const required = ['nombre','especialidad','telefono','horas','compromisos','imprevisto','experiencia','abandono','rotacion','puntualidad_cliente','lealtad','error','equipo','puntualidad_self','expectativas'];
+  let missing = false;
+  required.forEach(k => { if (!get(k)) missing = true; });
+  if (missing) { alert('Por favor, completá todos los campos obligatorios.'); return; }
+
+  // Scoring
+  let score = 0;
+  const numericFields = ['horas','compromisos','imprevisto','experiencia','abandono','puntualidad_cliente','lealtad','error','equipo'];
+  numericFields.forEach(k => { score += parseInt(get(k) || 0); });
+  const rotVal = parseInt(get('rotacion') || 0);
+  score += rotVal; // 3, 1, o 0
+  score += Math.round((parseInt(get('puntualidad_self') || 1) - 1) * 0.8);
+  const maxScore = 29; // 3+2+3+3+2+3+3+3+3+3+3.2
+  const pct = Math.round((score / maxScore) * 100);
+
+  // Flags
+  const flags = [];
+  if (parseInt(get('horas')) === 0) flags.push('Muy poca disponibilidad');
+  if (parseInt(get('compromisos')) === 0) flags.push('Compromisos sin solución clara');
+  if (parseInt(get('imprevisto')) <= 1) flags.push('Gestión de imprevistos mejorable');
+  if (parseInt(get('rotacion')) === 0) flags.push('Alta rotación laboral');
+  if (parseInt(get('abandono')) === 0) flags.push('Abandonos sin aviso previo');
+  if (parseInt(get('puntualidad_self')) <= 2) flags.push('Puntualidad poco valorada');
+  if (parseInt(get('lealtad')) === 0) flags.push('Riesgo de competencia desleal');
+  if (parseInt(get('error')) === 0) flags.push('Baja responsabilidad ante errores');
+  if (parseInt(get('equipo')) === 0) flags.push('Trabajo en equipo mejorable');
+
+  // Resultado
+  let nivel, color, symbol;
+  if (pct >= 72) { nivel = 'Perfil muy favorable'; color = 'verde'; symbol = '✦'; }
+  else if (pct >= 48) { nivel = 'Perfil con puntos a profundizar'; color = 'amarillo'; symbol = '◈'; }
+  else { nivel = 'Perfil con señales de alerta'; color = 'rojo'; symbol = '◇'; }
+
+  // Resumen para envío
+  const resumenBase = `
+AVELINAS · NUEVA CANDIDATA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Nombre:       ${get('nombre')}
+Especialidad: ${get('especialidad')}
+Teléfono:     ${get('telefono')}
+Email:        ${get('email') || '—'}
+
+EVALUACIÓN AUTOMÁTICA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${symbol} ${nivel.toUpperCase()}
+Puntuación:   ${pct}% (${score}/${maxScore} pts)
+
+Señales de alerta: ${flags.length ? flags.join(' · ') : 'Ninguna'}
+
+RESPUESTAS CLAVE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Disponibilidad semanal:    ${horasMap[get('horas')]}
+Compromisos personales:    ${compromisosMap[parseInt(get('compromisos'))]}
+Gestión de imprevistos:    ${imprevistoMap[parseInt(get('imprevisto'))]}
+Experiencia en el sector:  ${experienciaMap[parseInt(get('experiencia'))]}
+Historial de abandonos:    ${abandonoMap[parseInt(get('abandono'))]}
+Rotación últimos 2 años:   ${rotacionMap[get('rotacion')] || '—'}
+Valoración puntualidad:    ${get('puntualidad_self')}/5
+Test lealtad:              ${parseInt(get('lealtad')) === 3 ? 'Correcto (rechaza trabajo externo)' : parseInt(get('lealtad')) === 1 ? 'Neutro' : '⚑ Riesgo (haría trabajo externo)'}
+Test responsabilidad:      ${parseInt(get('error')) === 3 ? 'Correcto (reconoce el error)' : parseInt(get('error')) === 1 ? 'Neutro' : '⚑ Evita la situación'}
+Test equipo:               ${parseInt(get('equipo')) === 3 ? 'Correcto (ordena y comunica)' : parseInt(get('equipo')) === 1 ? 'Neutro' : '⚑ No lo considera su responsabilidad'}
+
+EXPECTATIVAS (texto libre)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${get('expectativas')}
+
+INFORMACIÓN ADICIONAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${get('extra') || '—'}
+  `.trim();
+
+  // Ocultar form, mostrar loading
+  document.getElementById('mainForm').style.display = 'none';
+  document.getElementById('loading').style.display = 'block';
+
+  // Análisis con IA
+  let aiText = '';
+  try {
+    const prompt = `Sos asistente de selección de personal de Avelinas, un centro de estética premium en Azul, Buenos Aires. Analizá el siguiente cuestionario de una candidata y generá un informe en español rioplatense, conciso y profesional.
+
+${resumenBase}
+
+El informe debe tener exactamente estas secciones (sin markdown, sin asteriscos, sin #):
+
+RESUMEN EJECUTIVO
+[2-3 oraciones describiendo el perfil general de la candidata]
+
+PUNTOS FUERTES
+[2-3 puntos concretos basados en sus respuestas]
+
+PUNTOS DE ATENCIÓN
+[Las señales de alerta más relevantes con contexto específico para un centro de estética]
+
+PREGUNTAS RECOMENDADAS PARA LA ENTREVISTA
+[3-4 preguntas específicas basadas en sus respuestas débiles o ambiguas]
+
+RECOMENDACIÓN FINAL
+[Una sola oración clara: INCORPORAR / ENTREVISTAR CON CAUTELA / DESCARTAR, con breve justificación]`;
+
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await resp.json();
+    aiText = data.content?.[0]?.text || '';
+  } catch(err) {
+    aiText = '';
+  }
+
+  // Enviar a Web3Forms
+  let enviado = false;
+  try {
+    const bodyEnvio = {
+      access_key: 'e6e12092-4656-448c-9399-0948c5f4e195',
+      subject: `[Avelinas] Nueva candidata: ${get('nombre')} — ${symbol} ${nivel}`,
+      from_name: 'Avelinas · Cuestionario',
+      nombre: get('nombre'),
+      especialidad: get('especialidad'),
+      telefono: get('telefono'),
+      email_candidata: get('email') || '—',
+      resumen: resumenBase,
+      analisis_ia: aiText || 'No disponible'
+    };
+    const r = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(bodyEnvio)
+    });
+    const rj = await r.json();
+    enviado = rj.success;
+  } catch(err) {
+    enviado = false;
+  }
+
+  // Mostrar resultado
+  document.getElementById('loading').style.display = 'none';
+  const card = document.getElementById('resultCard');
+  card.className = `result-card fade-in ${color}`;
+  document.getElementById('resultSymbol').textContent = symbol;
+  document.getElementById('resultTitle').textContent = nivel;
+  document.getElementById('resultScore').textContent = `Puntuación: ${pct}% · ${score}/${maxScore} puntos`;
+
+  const flagsEl = document.getElementById('resultFlags');
+  flagsEl.innerHTML = '';
+  if (flags.length === 0) {
+    flagsEl.innerHTML = '<span class="flag ok">Sin señales de alerta detectadas</span>';
+  } else {
+    flags.forEach(f => { flagsEl.innerHTML += `<span class="flag">⚑ ${f}</span>`; });
+  }
+
+  if (aiText) {
+    document.getElementById('aiAnalysis').style.display = 'block';
+    document.getElementById('aiBody').textContent = aiText;
+  }
+
+  document.getElementById('sentNote').textContent = enviado
+    ? 'El análisis completo fue enviado a avelinasazul@gmail.com.'
+    : 'Nota: no se pudo enviar el correo automáticamente. Guardá esta pantalla.';
+
+  document.getElementById('result').style.display = 'block';
+  document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+});
+
+function resetForm() {
+  document.getElementById('mainForm').reset();
+  document.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+  document.getElementById('mainForm').style.display = 'block';
+  document.getElementById('result').style.display = 'none';
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('aiAnalysis').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
