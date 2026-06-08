@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/analizar.js": {
+      "runtime": "nodejs20.x"
+    }
+  }
+}
